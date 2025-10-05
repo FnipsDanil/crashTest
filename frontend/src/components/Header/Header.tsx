@@ -4,6 +4,9 @@ import PaymentModal from '../PaymentModal/PaymentModal'
 import { useBalance } from '../../contexts/BalanceContextWebSocket'
 import './Header.css'
 
+const CDN_BASE = 'https://static.cdn-easygift.com.ru'
+const StarIcon = `${CDN_BASE}/prize/StarsIcon.webp`
+
 export default function Header() {
   const { balance, addToBalance, refreshBalance } = useBalance()
   const [loading, setLoading] = useState(false)
@@ -55,7 +58,7 @@ export default function Header() {
         </div>
 
         <div className="balance-section">
-          <span className="star-icon">⭐</span>
+          <img src={StarIcon} alt="Star" className="star-icon" />
           <span className="balance-amount-compact">
             {Math.floor(balance)}<span className="balance-decimals">.{((balance % 1) * 100).toFixed(0).padStart(2, '0')}</span>
           </span>
