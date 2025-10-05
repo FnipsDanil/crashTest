@@ -3,13 +3,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.625rem 1.25rem;
-  background: var(--clr-bg-dark);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #000000 0%, #0a0e27 50%, #001233 100%);
+  border-top: 1px solid rgba(100, 150, 255, 0.2);
+  border-bottom: 1px solid rgba(100, 150, 255, 0.3);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 18, 51, 0.6), 0 0 40px rgba(79, 70, 229, 0.1);
   min-height: 56px;
 }
 
