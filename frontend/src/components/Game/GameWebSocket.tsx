@@ -14,6 +14,9 @@ import { useGameState, useCrashHistory, usePlayerStatus } from '../../hooks/useW
 import { useWebSocketContext } from '../../contexts/WebSocketContext'
 import { FORCE_RELOAD_TIMESTAMP, VERSION } from "../../ForceReload"
 import './Game.css'
+
+const CDN_BASE = 'https://static.cdn-easygift.com.ru'
+const StarIcon = `${CDN_BASE}/prize/StarsIcon.webp`
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -713,7 +716,7 @@ export default function GameWebSocket() {
               <div className="message-legend">
                 {showWinMessage ? (
                   <div className="cashout-message">
-                    ✅ +{Number(winAmount).toFixed(2)}⭐ x{Number(winMultiplier).toFixed(2)}
+                    ✅ +{Number(winAmount).toFixed(2)}<img src={StarIcon} alt="Star" className="message-star-icon" /> x{Number(winMultiplier).toFixed(2)}
                   </div>
                 ) : showCrashMessage ? (
                   <div className="crash-message">{t('game.crash')}</div>
@@ -740,7 +743,7 @@ export default function GameWebSocket() {
                 disabled={playerJoined || playerPlaying}
                 placeholder="10"
               />
-              <span className="bet-currency">⭐</span>
+              <img src={StarIcon} alt="Star" className="bet-currency" />
             </div>
             
             <div className="bet-presets">
