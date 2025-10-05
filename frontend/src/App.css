@@ -87,14 +87,15 @@
   flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh; /* Dynamic viewport height for mobile */
-  background: var(--clr-bg-dark);
+  background: linear-gradient(180deg, #000000 0%, #0a0e27 50%, #001233 100%);
   color: var(--clr-text-light);
   position: relative;
+  overflow-x: hidden;
 }
 
 .app-main {
   flex: 1;
-  padding: 1rem;
+  padding: 0;
   padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); /* Space for floating footer nav + safe area */
   overflow-y: auto;
   overflow-x: hidden;
@@ -103,6 +104,7 @@
   /* Hide scrollbar */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+  box-sizing: border-box;
 }
 
 .app-main::-webkit-scrollbar {
@@ -124,8 +126,8 @@
   border-radius: 14px;
   text-decoration: none;
   color: rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(10, 14, 39, 0.5);
+  border: 1px solid rgba(100, 150, 255, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   min-width: 60px;
   flex: 1;
@@ -145,7 +147,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(139, 135, 255, 0.05));
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 135, 255, 0.1));
   opacity: 0;
   transition: opacity 0.3s ease;
   border-radius: 14px;
@@ -157,12 +159,12 @@
 
 .nav-item:hover,
 .nav-item.active {
-  color: var(--clr-primary-light);
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(139, 135, 255, 0.15));
-  box-shadow: 
-    0 0 15px rgba(79, 70, 229, 0.3),
+  color: #a5b4fc;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(99, 102, 241, 0.2));
+  box-shadow:
+    0 0 20px rgba(99, 102, 241, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(79, 70, 229, 0.4);
+  border: 1px solid rgba(100, 150, 255, 0.5);
   transform: translateY(-2px);
 }
 
@@ -183,7 +185,7 @@
 }
 
 .nav-item.active .nav-icon {
-  filter: drop-shadow(0 0 8px rgba(79, 70, 229, 0.6));
+  filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.8));
   transform: scale(1.1);
 }
 
@@ -195,9 +197,9 @@
   transform: translateX(-50%);
   width: 24px;
   height: 3px;
-  background: linear-gradient(90deg, var(--clr-primary), var(--clr-primary-light));
+  background: linear-gradient(90deg, #6366f1, #a5b4fc);
   border-radius: 0 0 3px 3px;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.6);
 }
 
 .nav-label {
@@ -293,20 +295,20 @@
   flex: 1;
   min-width: 200px;
   padding: 0.75rem;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(100, 150, 255, 0.3);
   border-radius: 8px;
-  background-color: var(--clr-bg-dark);
+  background: rgba(0, 0, 0, 0.4);
   color: var(--clr-text-light);
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .promo-code-input:focus {
   outline: none;
-  border-color: var(--clr-primary);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
 }
 
 .promo-code-input:disabled {
@@ -321,13 +323,14 @@
 }
 
 .promo-error {
-  color: var(--clr-error, #ef4444);
+  color: #fca5a5;
   font-size: 0.875rem;
   margin-top: 0.5rem;
   padding: 0.5rem;
-  background-color: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.15);
   border-radius: 4px;
-  border-left: 3px solid var(--clr-error, #ef4444);
+  border-left: 3px solid #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
 }
 
 @media (max-width: 600px) {
