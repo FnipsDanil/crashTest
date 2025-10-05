@@ -1,0 +1,16 @@
+services:
+  gift-sender:
+    build: .
+    container_name: gift-sender
+    env_file:
+      - ../.env  # Use main project's .env file
+    networks:
+      - crash-stars-game_crash-stars-network
+    restart: "no"  # Run once and exit
+    volumes:
+      - ./logs:/app/logs  # Mount logs directory for persistent logs
+      - ./telethon_sessions:/app/telethon_sessions  # Mount Telethon sessions for persistent auth
+
+networks:
+  crash-stars-game_crash-stars-network:
+    external: true  # Use the network from main project

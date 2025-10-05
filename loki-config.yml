@@ -1,0 +1,61 @@
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+  grpc_listen_port: 9095
+
+common:
+  path_prefix: /loki
+  storage:
+    filesystem:
+      chunks_directory: /loki/chunks
+      rules_directory: /loki/rules
+  replication_factor: 1
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: inmemory
+
+query_range:
+  results_cache:
+    cache:
+      embedded_cache:
+        enabled: true
+        max_size_mb: 100
+
+schema_config:
+  configs:
+    - from: 2020-10-24
+      store: tsdb
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
+# Настройки для экономии места и производительности
+limits_config:
+  retention_period: 168h  # Храним логи только 7 дней
+  ingestion_rate_mb: 4  # Лимит на ввод данных
+  ingestion_burst_size_mb: 6
+  max_query_length: 168h  # Максимальная длина запроса
+  max_query_parallelism: 4
+  max_streams_per_user: 2000
+  max_line_size: 65536
+  reject_old_samples: true
+  reject_old_samples_max_age: 168h
+  allow_structured_metadata: false  # Отключаем structured metadata для v13
+  readline_rate: 1000        # строк/сек
+  readline_burst: 2000
+  readline_rate_enabled: true
+
+# Компактор для очистки старых данных
+compactor:
+  working_directory: /loki/compactor
+  retention_enabled: true
+  retention_delete_delay: 2h
+  retention_delete_worker_count: 150
+  delete_request_store: filesystem
+
+analytics:
+  reporting_enabled: false

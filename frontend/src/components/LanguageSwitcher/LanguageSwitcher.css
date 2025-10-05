@@ -1,0 +1,34 @@
+.lang-switcher {
+    display: flex;
+    gap: 0.3rem; /* чуть меньше отступ */
+    align-items: center;
+    margin-left: auto;
+    min-width: 80px; /* минимальная ширина */
+  }
+  
+  .lang-btn {
+    padding: 4px 8px; /* чуть меньше */
+    font-size: 0.8rem; /* чуть меньше */
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background-color: transparent;
+    color: var(--clr-text-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 32px; /* чтобы кнопки не сжимались слишком сильно */
+    text-align: center;
+    white-space: nowrap;
+    user-select: none;
+  }
+  
+  .lang-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .lang-btn.active {
+    background-color: var(--clr-primary);
+    color: white;
+    border-color: var(--clr-primary);
+    font-weight: 600;
+  }

@@ -1,0 +1,442 @@
+# # =============================================================================
+# # CRASH STARS GAME - GITIGNORE
+# # =============================================================================
+
+# # Environment Variables & Secrets
+# .env
+# .env.local
+# .env.development.local
+# .env.test.local  
+# .env.production.local
+# .env.backup.*
+
+# # Telegram Sessions (Telethon)
+# *.session
+# *.session-journal
+# gift-sender/telethon_sessions/
+
+# # SSL Certificates & Keys
+# /ssl
+# ssl/
+# *.pem
+# *.key
+# *.crt
+# *.p12
+# *.pfx
+# .htpasswd
+
+# # Claude AI Configuration
+# .claude
+# .claude/
+# .cursor
+# .cursor/
+
+# # =============================================================================
+# # PYTHON BACKEND
+# # =============================================================================
+
+# # Virtual Environment
+# venv/
+# env/
+# ENV/
+# .venv/
+# .ENV/
+
+# # Python Cache & Compiled
+# __pycache__/
+# *.py[cod]
+# *$py.class
+# *.so
+
+# # Distribution / Packaging
+# .Python
+# build/
+# develop-eggs/
+# dist/
+# downloads/
+# eggs/
+# .eggs/
+# lib/
+# lib64/
+# parts/
+# sdist/
+# var/
+# wheels/
+# *.egg-info/
+# .installed.cfg
+# *.egg
+# MANIFEST
+
+# # PyInstaller
+# *.manifest
+# *.spec
+
+# # Unit Test / Coverage Reports
+# htmlcov/
+# .tox/
+# .coverage
+# .coverage.*
+# .cache
+# nosetests.xml
+# coverage.xml
+# *.cover
+# .hypothesis/
+# .pytest_cache/
+
+# # Jupyter Notebook
+# .ipynb_checkpoints
+
+# # IPython
+# profile_default/
+# ipython_config.py
+
+# # pyenv
+# .python-version
+
+# # Celery Beat Schedule
+# celerybeat-schedule
+
+# # SageMath Parsed Files
+# *.sage.py
+
+# # Spyder Project Settings
+# .spyderproject
+# .spyproject
+
+# # Rope Project Settings
+# .ropeproject
+
+# # mkdocs Documentation
+# /site
+
+# # mypy
+# .mypy_cache/
+# .dmypy.json
+# dmypy.json
+
+# # Pyre Type Checker
+# .pyre/
+
+# # =============================================================================
+# # NODE.JS FRONTEND
+# # =============================================================================
+
+# # Node Modules
+# node_modules/
+# npm-debug.log*
+# yarn-debug.log*
+# yarn-error.log*
+# lerna-debug.log*
+
+# # Runtime Data
+# pids
+# *.pid
+# *.seed
+# *.pid.lock
+
+# # Coverage Directory Used by Tools Like Istanbul
+# coverage/
+# *.lcov
+
+# # nyc Test Coverage
+# .nyc_output
+
+# # Grunt Intermediate Storage
+# .grunt
+
+# # Bower Dependency Directory
+# bower_components
+
+# # node-waf Configuration
+# .lock-wscript
+
+# # Compiled Binary Addons
+# build/Release
+
+# # Dependency Directories
+# jspm_packages/
+
+# # TypeScript v1 Declaration Files
+# typings/
+
+# # TypeScript Cache
+# *.tsbuildinfo
+
+# # Optional npm Cache Directory
+# .npm
+
+# # Optional ESLint Cache
+# .eslintcache
+
+# # Microbundle Cache
+# .rpt2_cache/
+# .rts2_cache_cjs/
+# .rts2_cache_es/
+# .rts2_cache_umd/
+
+# # Optional REPL History
+# .node_repl_history
+
+# # Output of 'npm pack'
+# *.tgz
+
+# # Yarn Integrity File
+# .yarn-integrity
+
+# # dotenv Environment Variables File
+# .env.local
+
+# # parcel-bundler Cache
+# .cache
+# .parcel-cache
+
+# # Next.js Build Output
+# .next
+
+# # Nuxt.js Build / Generate Output
+# .nuxt
+# dist
+
+# # Gatsby Files
+# .cache/
+# public
+
+# # Vuepress Build Output
+# .vuepress/dist
+
+# # Serverless Directories
+# .serverless/
+
+# # FuseBox Cache
+# .fusebox/
+
+# # DynamoDB Local Files
+# .dynamodb/
+
+# # TernJS Port File
+# .tern-port
+
+# # Stores VSCode Versions Used for Testing VSCode Extensions
+# .vscode-test
+
+# # =============================================================================
+# # REACT / VITE SPECIFIC
+# # =============================================================================
+
+# # Vite Build Output
+# dist/
+# dist-ssr/
+
+# # Vite Cache
+# .vite/
+
+# # Rollup Cache
+# .rollup.cache/
+
+# # =============================================================================
+# # DATABASE & DATA
+# # =============================================================================
+
+# # Database Files
+# *.db
+# *.sqlite
+# *.sqlite3
+
+# # Database Backups
+# *.sql.backup
+# *.dump
+# *.backup
+
+# # Redis Dump
+# dump.rdb
+
+# # =============================================================================
+# # DOCKER
+# # =============================================================================
+
+# # Docker Compose Override Files
+# docker-compose.override.yml
+# docker-compose.override.yaml
+
+# # Docker Volumes
+# .docker/
+
+# # =============================================================================
+# # LOGS & MONITORING
+# # =============================================================================
+
+# # Log Files
+# logs/
+# *.log
+# *.log.*
+# log/
+
+# # PM2 Logs
+# .pm2/
+
+# backup/
+
+# # =============================================================================
+# # OPERATING SYSTEM
+# # =============================================================================
+
+# # Windows
+# Thumbs.db
+# Thumbs.db:encryptable
+# ehthumbs.db
+# ehthumbs_vista.db
+# *.stackdump
+# [Dd]esktop.ini
+# $RECYCLE.BIN/
+# *.cab
+# *.msi
+# *.msix
+# *.msm
+# *.msp
+# *.lnk
+
+# # macOS
+# .DS_Store
+# .AppleDouble
+# .LSOverride
+# Icon
+# ._*
+# .DocumentRevisions-V100
+# .fseventsd
+# .Spotlight-V100
+# .TemporaryItems
+# .Trashes
+# .VolumeIcon.icns
+# .com.apple.timemachine.donotpresent
+# .AppleDB
+# .AppleDesktop
+# Network Trash Folder
+# Temporary Items
+# .apdisk
+
+# # Linux
+# *~
+# .fuse_hidden*
+# .directory
+# .Trash-*
+# .nfs*
+
+# # =============================================================================
+# # EDITORS & IDEs
+# # =============================================================================
+
+# # VS Code
+# .vscode/
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
+# !.vscode/*.code-snippets
+# .history/
+# *.vsix
+
+# # JetBrains IDEs
+# .idea/
+# *.iws
+# *.iml
+# *.ipr
+# out/
+
+# # Sublime Text
+# *.tmlanguage.cache
+# *.tmPreferences.cache
+# *.stTheme.cache
+# *.sublime-workspace
+# *.sublime-project
+
+# # Vim
+# [._]*.s[a-v][a-z]
+# !*.svg
+# [._]*.sw[a-p]
+# [._]s[a-rt-v][a-z]
+# [._]ss[a-gi-z]
+# [._]sw[a-p]
+# Session.vim
+# Sessionx.vim
+# .netrwhist
+# *~
+# tags
+# [._]*.un~
+
+# # Emacs
+# *~
+# \#*\#
+# /.emacs.desktop
+# /.emacs.desktop.lock
+# *.elc
+# auto-save-list
+# tramp
+# .\#*
+
+# # =============================================================================
+# # GAME SPECIFIC
+# # =============================================================================
+
+# # Backup Files
+# *.backup
+# *.bak
+# *.tmp
+# *.temp
+
+# # Game Data
+# game_data/
+# user_uploads/
+# crash_logs/
+
+# # Configuration Backups
+# config/*.backup
+# *.env.backup*
+
+# # Testing Data
+# test_data/
+# mock_data/
+
+# # Performance Reports
+# performance_reports/
+# benchmarks/
+
+# # =============================================================================
+# # TELEGRAM BOT SPECIFIC
+# # =============================================================================
+
+# # Bot Token Files
+# bot_tokens/
+# telegram_tokens/
+
+# # Webhook Certificates
+# webhook_cert.pem
+# webhook_pkey.pem
+
+# # =============================================================================
+# # MISCELLANEOUS
+# # =============================================================================
+
+# # Temporary Files
+# *.swp
+# *.swo
+# *~
+
+# # Archive Files
+# *.zip
+# *.tar.gz
+# *.rar
+# *.7z
+
+# # Generated Documentation
+# docs/_build/
+# docs/build/
+
+# # Deployment Files
+# deploy_keys/
+# deployment.yaml
+# kubernetes.yaml
+
+# # Monitoring & Analytics
+# monitoring/
+# analytics/
+# metrics/

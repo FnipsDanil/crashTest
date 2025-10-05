@@ -1,0 +1,233 @@
+/* Crash History Strip Styles */
+.crash-history-strip {
+  width: 100%;
+  max-width: calc(100vw - 2rem); /* Учитываем отступы контейнера */
+  height: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 4px;
+  margin: 0 0 4px 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box; /* Включаем padding в ширину */
+}
+
+.crash-history-container {
+  display: flex;
+  gap: 3px;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  align-items: center;
+  padding: 0 2px;
+  /* Блокировка вертикального перетаскивания */
+  overscroll-behavior-y: none;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+}
+
+.crash-history-container::-webkit-scrollbar {
+  display: none;
+}
+
+.crash-item {
+  min-width: 50px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: white;
+  font-weight: 700;
+  font-size: 11px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Статичные элементы - без анимации */
+.crash-item-static {
+  animation: none;
+}
+
+/* Первый элемент - мягкая анимация */
+.crash-item-first {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Новые элементы - яркая анимация */
+.crash-item-new {
+  animation: slideInNew 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 0 15px rgba(79, 70, 229, 0.8);
+}
+
+.crash-item-latest {
+  animation: slideInLatest 0.5s ease-out;
+  box-shadow: 0 0 12px rgba(79, 70, 229, 0.6);
+  border: 1px solid rgba(79, 70, 229, 0.5);
+}
+
+.crash-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.crash-item-latest {
+  animation: slideInLatest 0.5s ease-out;
+  box-shadow: 0 0 12px rgba(79, 70, 229, 0.6);
+  border: 1px solid rgba(79, 70, 229, 0.5);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInNew {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px) scale(0.3) rotate(-10deg);
+    box-shadow: 0 0 30px rgba(79, 70, 229, 1);
+  }
+  30% {
+    opacity: 0.7;
+    transform: translateX(-10px) scale(1.15) rotate(2deg);
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.9);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translateX(5px) scale(1.05) rotate(-1deg);
+    box-shadow: 0 0 15px rgba(79, 70, 229, 0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1) rotate(0deg);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideInLatest {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px) scale(0.5);
+    box-shadow: 0 0 20px rgba(79, 70, 229, 1);
+  }
+  50% {
+    transform: translateX(-5px) scale(1.1);
+    box-shadow: 0 0 16px rgba(79, 70, 229, 0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    box-shadow: 0 0 12px rgba(79, 70, 229, 0.6);
+  }
+}
+
+/* Trend indicators */
+.trend-indicators {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.trend-indicator {
+  position: absolute;
+  right: -2px;
+  font-size: 10px;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.trend-indicator-1 {
+  top: -2px;
+  z-index: 10;
+}
+
+.trend-indicator-2 {
+  top: 3px;
+  z-index: 9;
+}
+
+.trend-indicator-3 {
+  top: 8px;
+  z-index: 8;
+}
+
+.trend-up {
+  color: #10b981;
+}
+
+.trend-down {
+  color: #ef4444;
+}
+
+/* Color variations for different crash ranges */
+.crash-low {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.crash-medium {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.crash-high {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .crash-history-strip {
+    height: 30px;
+    padding: 2px;
+    margin-bottom: 6px;
+  }
+  
+  .crash-item {
+    min-width: 40px;
+    height: 24px;
+    font-size: 9px;
+  }
+  
+  .trend-indicator {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .crash-history-strip {
+    height: 28px;
+    padding: 2px;
+    margin-bottom: 6px;
+  }
+  
+  .crash-item {
+    min-width: 38px;
+    height: 22px;
+    font-size: 8px;
+  }
+  
+  .trend-indicator {
+    font-size: 7px;
+  }
+}
