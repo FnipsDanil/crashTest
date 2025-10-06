@@ -286,33 +286,32 @@ export default function GameWebSocket() {
   // Bet handling functions
   const handleBetAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value
-    
+
     // Разрешаем пустое значение
     if (inputValue === '') {
       setBetAmount('')
       return
     }
-    
+
     // Разрешаем только цифры, точку и запятую
     if (!/^[\d.,]*$/.test(inputValue)) {
       return
     }
-    
+
     // Заменяем запятую на точку для парсинга
     const normalizedValue = inputValue.replace(',', '.')
-    
+
     // Разрешаем частичный ввод (например "12.", "0.")
     if (normalizedValue.endsWith('.') || normalizedValue === '0') {
       setBetAmount(normalizedValue)
       return
     }
-    
+
     const value = parseFloat(normalizedValue)
     if (isNaN(value)) return
-    
-    // Не ограничиваем минимумом во время ввода, только при отправке
-    const roundedValue = Math.round(value * 100) / 100
-    setBetAmount(Math.min(balance, roundedValue))
+
+    // Просто устанавливаем значение без ограничений во время ввода
+    setBetAmount(normalizedValue)
   }
 
   const setPresetBet = (amount: number) => {

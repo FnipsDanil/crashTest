@@ -402,7 +402,7 @@
 
 .bet-input {
   flex: 1;
-  padding: 0.75rem 3rem 0.75rem 1rem;
+  padding: 0.75rem 3.5rem 0.75rem 1rem;
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(100, 150, 255, 0.3);
   border-radius: 8px;
@@ -429,7 +429,6 @@
   width: 24px;
   height: 24px;
   pointer-events: none;
-  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.7));
 }
 
 .bet-presets {
