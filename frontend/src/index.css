@@ -285,7 +285,7 @@ h1 {
 .chart-container {
   width: 100%;
   aspect-ratio: 16 / 9;
-  margin: 0.5rem auto 0 auto;
+  margin: -0.5rem auto 0 auto;
   position: relative;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.03);
