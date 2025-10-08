@@ -65,20 +65,23 @@
   bottom: 0;
   background: rgba(255, 255, 255, 0.05);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
   border-radius: 8px;
+  pointer-events: none;
 }
 
 .footer-nav-item:hover::before {
   opacity: 1;
 }
 
-.footer-nav-item.active,
-.footer-nav-item:hover {
+.footer-nav-item.active {
   color: #ffffff;
   background: rgba(79, 70, 229, 0.08);
   /*box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);*/
-  /*transform: translateY(-2px);*/
+}
+
+.footer-nav-item:hover:not(.active) {
+  color: #ffffff;
 }
 
 .footer-nav-item.active {
@@ -104,9 +107,8 @@
   margin-bottom: 4px;
   position: relative;
   z-index: 1;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
   transition: all 0.3s ease;
-  
+
   /* Center the icon perfectly */
   display: flex;
   align-items: center;
@@ -115,9 +117,22 @@
   height: 18px;
 }
 
+.footer-nav-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.5;
+  filter: grayscale(100%) brightness(1.2);
+  transition: opacity 0.3s ease, filter 0.15s ease;
+}
+
 .footer-nav-item.active .footer-nav-icon {
-  filter: drop-shadow(0 0 6px rgba(79, 70, 229, 0.6));
   /*transform: scale(1.05);*/
+}
+
+.footer-nav-item.active .footer-nav-icon img {
+  opacity: 1;
+  filter: brightness(0) saturate(100%) invert(37%) sepia(86%) saturate(2613%) hue-rotate(236deg) brightness(95%) contrast(92%);
 }
 
 .footer-nav-label {
@@ -191,11 +206,15 @@
 }
 
 /* Performance optimizations */
-.footer-nav,
+.footer-nav {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
 .footer-nav-item {
   transform: translateZ(0);
-  will-change: transform;
-  contain: layout style paint;
+  backface-visibility: hidden;
 }
 
 /* Prevent zoom on touch */

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { initData, init, swipeBehavior, viewport } from '@telegram-apps/sdk-react'
+import { initData, init, swipeBehavior, viewport, miniApp } from '@telegram-apps/sdk-react'
 import Header from './components/Header/Header'
 import { BalanceProvider } from './contexts/BalanceContextWebSocket'
 import { ErrorProvider } from './contexts/ErrorContext'
@@ -115,7 +115,15 @@ export default function App() {
   useEffect(() => {
     try {
       init()
-      
+
+      // Set Mini App colors to match app theme
+      if (miniApp.setHeaderColor.isAvailable()) {
+        miniApp.setHeaderColor('#0a0e27')
+      }
+      if (miniApp.setBackgroundColor.isAvailable()) {
+        miniApp.setBackgroundColor('#0a0e27')
+      }
+
       // Additional swipe behavior configuration as fallback
       setTimeout(() => {
         if (swipeBehavior.mount.isAvailable() && !swipeBehavior.isMounted()) {
@@ -125,7 +133,7 @@ export default function App() {
           swipeBehavior.disableVertical()
         }
       }, 100)
-      
+
     } catch (error) {
       console.warn('Failed to initialize Telegram SDK:', error)
     }

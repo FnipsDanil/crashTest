@@ -9,11 +9,17 @@ import Profile from '../components/Profile/Profile';
 import Leaderboard from '../components/Leaderboard/Leaderboard';
 import Store from '../components/Store/Store';
 
+const CDN_BASE = 'https://vip.cdn-starcrash.com.ru'
+const GameIcon = `${CDN_BASE}/asset/tabbar/chart.webp`
+const ProfileIcon = `${CDN_BASE}/asset/tabbar/user.webp`
+const LeaderboardIcon = `${CDN_BASE}/asset/tabbar/trophy.webp`
+const StoreIcon = `${CDN_BASE}/asset/tabbar/shop.webp`
+
 export const pages = [
-  { labelKey: 'nav.home', Component: Game, icon: '🎮' },
-  { labelKey: 'nav.profile', Component: Profile, icon: '👤' },
-  { labelKey: 'nav.leaderboard', Component: Leaderboard, icon: '🏆' },
-  { labelKey: 'nav.store', Component: Store, icon: '🎁' }
+  { labelKey: 'nav.home', Component: Game, icon: <img src={GameIcon} alt="Game" style={{ width: '24px', height: '24px' }} /> },
+  { labelKey: 'nav.profile', Component: Profile, icon: <img src={ProfileIcon} alt="Profile" style={{ width: '24px', height: '24px' }} /> },
+  { labelKey: 'nav.leaderboard', Component: Leaderboard, icon: <img src={LeaderboardIcon} alt="Leaderboard" style={{ width: '24px', height: '24px' }} /> },
+  { labelKey: 'nav.store', Component: Store, icon: <img src={StoreIcon} alt="Store" style={{ width: '24px', height: '24px' }} /> }
 ];
 
 export default function IndexPage() {

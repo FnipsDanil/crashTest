@@ -15,8 +15,8 @@ import { useWebSocketContext } from '../../contexts/WebSocketContext'
 import { FORCE_RELOAD_TIMESTAMP, VERSION } from "../../ForceReload"
 import './Game.css'
 
-const CDN_BASE = 'https://static.cdn-easygift.com.ru'
-const StarIcon = `${CDN_BASE}/prize/StarsIcon.webp`
+const CDN_BASE = 'https://vip.cdn-starcrash.com.ru'
+const StarIcon = `${CDN_BASE}/asset/StarsIcon.webp`
 import {
   Chart as ChartJS,
   CategoryScale,

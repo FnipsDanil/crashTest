@@ -4,8 +4,8 @@ import PaymentModal from '../PaymentModal/PaymentModal'
 import { useBalance } from '../../contexts/BalanceContextWebSocket'
 import './Header.css'
 
-const CDN_BASE = 'https://static.cdn-easygift.com.ru'
-const StarIcon = `${CDN_BASE}/prize/StarsIcon.webp`
+const CDN_BASE = 'https://vip.cdn-starcrash.com.ru'
+const StarIcon = `${CDN_BASE}/asset/StarsIcon.webp`
 
 export default function Header() {
   const { balance, addToBalance, refreshBalance } = useBalance()
