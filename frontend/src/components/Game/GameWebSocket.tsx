@@ -603,7 +603,12 @@ export default function GameWebSocket() {
     responsive: true,
     maintainAspectRatio: false,
     animation: { duration: 0, easing: "linear" },
-    plugins: { 
+    layout: {
+      padding: {
+        bottom: 40
+      }
+    },
+    plugins: {
       legend: { display: false },
       tooltip: { enabled: false }
     },
@@ -612,7 +617,7 @@ export default function GameWebSocket() {
       y: {
         min: 1,
         max: maxScale,
-        grid: { 
+        grid: {
           color: "rgba(79, 70, 229, 0.15)",
           lineWidth: 1
         },
@@ -620,8 +625,8 @@ export default function GameWebSocket() {
           color: "rgba(79, 70, 229, 0.3)",
           width: 2
         },
-        ticks: { 
-          color: "rgba(224, 231, 255, 0.9)", 
+        ticks: {
+          color: "rgba(224, 231, 255, 0.9)",
           font: { weight: "bold", size: 12 },
           callback: function(value) {
             return `${Number(value).toFixed(1)}x`
