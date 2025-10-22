@@ -5,8 +5,7 @@ COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY backend/ .
-# Copy frontend assets for gift images
-COPY frontend/assets ./frontend/assets
+# Assets are now served from CDN, no need to copy frontend/assets
 
 EXPOSE 8000
 

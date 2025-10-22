@@ -337,72 +337,8 @@ app.middleware("http")(auth_middleware)
 rate_limit_middleware = create_rate_limit_middleware(REDIS_URL)
 app.middleware("http")(rate_limit_middleware)
 
-# Mount static files for gift images BEFORE API routers
-import os
-import mimetypes
-
-# Ensure PNG files are served with correct MIME type
-mimetypes.add_type('image/png', '.png')
-mimetypes.add_type('image/jpeg', '.jpg')
-mimetypes.add_type('image/jpeg', '.jpeg')
-
-# Use custom endpoint for images with proper MIME types and resizing
-@app.get("/assets/{file_path:path}")
-async def serve_assets(file_path: str):
-    from PIL import Image
-    from io import BytesIO
-    from fastapi.responses import Response
-    
-    frontend_assets_path = os.path.join(os.path.dirname(__file__), "frontend", "assets")
-    full_path = os.path.join(frontend_assets_path, file_path)
-    
-    if not os.path.exists(full_path):
-        raise HTTPException(status_code=404, detail="File not found")
-    
-    # Determine MIME type
-    if file_path.lower().endswith('.png'):
-        media_type = 'image/png'
-        format_name = 'PNG'
-    elif file_path.lower().endswith(('.jpg', '.jpeg')):
-        media_type = 'image/jpeg'
-        format_name = 'JPEG'
-    elif file_path.lower().endswith('.gif'):
-        media_type = 'image/gif'
-        format_name = 'GIF'
-    elif file_path.lower().endswith('.webp'):
-        media_type = 'image/webp'
-        format_name = 'WEBP'
-    else:
-        return FileResponse(full_path, media_type='application/octet-stream')
-    
-    # Resize image to 72x72
-    try:
-        with Image.open(full_path) as img:
-            # Convert to RGBA if PNG to preserve transparency
-            if format_name == 'PNG' and img.mode != 'RGBA':
-                img = img.convert('RGBA')
-            elif format_name in ['JPEG', 'GIF'] and img.mode not in ['RGB', 'L']:
-                img = img.convert('RGB')
-            
-            # Resize to 72x72
-            resized_img = img.resize((72, 72), Image.Resampling.LANCZOS)
-            
-            # Save to memory
-            img_buffer = BytesIO()
-            resized_img.save(img_buffer, format=format_name, optimize=True)
-            img_buffer.seek(0)
-            
-            return Response(
-                content=img_buffer.getvalue(),
-                media_type=media_type,
-                headers={
-                    "Cache-Control": "public, max-age=31536000, immutable",
-                    "Content-Length": str(len(img_buffer.getvalue()))
-                }
-            )
-    except Exception as e:
-        # Fallback to original file if resize fails
-        return FileResponse(full_path, media_type=media_type)
+# Static files are now served from CDN (https://vip.cdn-starcrash.com.ru/asset/)
+# No need to serve assets locally anymore
 
 # Include API routers
 app.include_router(game_router)
