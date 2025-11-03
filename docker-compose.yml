@@ -43,6 +43,12 @@ services:
       - SUPPORT_USER_ID=${SUPPORT_USER_ID}
       # Channel subscription bonus feature
       - CHANNEL_BONUS_ENABLED=${CHANNEL_BONUS_ENABLED:-true}
+      # Auto gift sender configuration
+      - USERBOT_GIFTER_URL=${USERBOT_GIFTER_URL:-http://userbot-gifter:8000}
+      - USERBOT_USERNAME=${USERBOT_USERNAME:-userbot}
+      - GIFT_SENDER_CHECK_INTERVAL=${GIFT_SENDER_CHECK_INTERVAL:-30}
+      - MESSAGE_VERIFICATION_HOURS=${MESSAGE_VERIFICATION_HOURS:-48}
+      - AUTO_APPROVE_GIFTS=${AUTO_APPROVE_GIFTS:-false}
     depends_on:
       pgbouncer:
         condition: service_started
@@ -68,8 +74,8 @@ services:
         max-size: "10m"
         max-file: "3"
     # SECURITY: Removed external port exposure - PostgreSQL only accessible internally
-    # ports:
-    #   - "5432:5432"
+    ports:
+      - "5432:5432"
     # Вариант 1 — 4 ядра, 8 ГБ RAM
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
@@ -176,6 +182,36 @@ services:
     command: redis-server --maxmemory 1gb --maxmemory-policy allkeys-lru
     # Вариант 3 — 12 ядер, 24 ГБ RAM
     #command: redis-server --maxmemory 2gb --maxmemory-policy allkeys-lru
+
+  userbot-gifter:
+    build:
+      context: ./userbot-gifter
+      dockerfile: Dockerfile
+    container_name: userbot-gifter
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      - PORT=8000
+      - TG_API_ID=${TELEGRAM_USERBOT_API_ID}
+      - TG_API_HASH=${TELEGRAM_USERBOT_API_HASH}
+      - SESSION_PATH=/app/sessions/userbot_session
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=${POSTGRES_DB}
+    volumes:
+      - ./userbot-gifter/sessions:/app/sessions
+    depends_on:
+      - postgres
+    networks:
+      - crash-stars-network
+    ports:
+      - "127.0.0.1:8001:8000"  # Expose только на localhost
 
   # telegram-bot:
   #   build: ./telegram-bot

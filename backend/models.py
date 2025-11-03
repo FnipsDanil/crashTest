@@ -204,9 +204,22 @@ class SystemSettings(Base):
     description = Column(Text, nullable=True)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
+class VerifiedSender(Base):
+    __tablename__ = 'verified_senders'
+
+    chat_id = Column(BigInteger, primary_key=True)
+    username = Column(String(255), nullable=True, index=True)
+    first_name = Column(String(255), nullable=True)
+    last_name = Column(String(255), nullable=True)
+    verified_at = Column(DateTime(timezone=True), server_default=func.now(), index=True)
+    last_message_at = Column(DateTime(timezone=True), server_default=func.now(), index=True)
+    message_count = Column(Integer, default=1, nullable=False)
+    is_blocked = Column(Boolean, default=False, nullable=False)
+    notes = Column(Text, nullable=True)
+
 class PromoCode(Base):
     __tablename__ = 'promo_codes'
-    
+
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     code = Column(String(50), unique=True, nullable=False, index=True)
     balance_reward = Column(DECIMAL(12, 2), nullable=False)
@@ -216,7 +229,7 @@ class PromoCode(Base):
     is_active = Column(Boolean, default=True, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     expires_at = Column(DateTime(timezone=True), nullable=True)
-    
+
     # Relationships
     uses = relationship("PromoCodeUse", back_populates="promo_code")
 

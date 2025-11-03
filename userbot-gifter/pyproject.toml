@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "userbot-gifter"
+version = "0.1.0"
+description = "Combined userbot and gifter service"
+authors = ["Stepan <Stepworm@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.12"
+uvicorn = "^0.34.1"
+telethon = "^1.40.0"
+python-dotenv = "^1.0.0"
+psycopg2-binary = "^2.9.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

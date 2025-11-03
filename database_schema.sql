@@ -136,6 +136,19 @@ CREATE TABLE system_settings (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Верифицированные отправители (для userbot-gifter)
+CREATE TABLE verified_senders (
+    chat_id BIGINT PRIMARY KEY,
+    username VARCHAR(255),
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    verified_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    last_message_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    message_count INTEGER DEFAULT 1,
+    is_blocked BOOLEAN DEFAULT FALSE,
+    notes TEXT
+);
+
 -- ИНДЕКСЫ для производительности
 
 -- Пользователи
@@ -162,6 +175,11 @@ CREATE INDEX idx_gifts_business_gift_id ON gifts(business_gift_id);
 CREATE INDEX idx_gift_purchases_user_id ON gift_purchases(user_id);
 CREATE INDEX idx_gift_purchases_purchased_at ON gift_purchases(purchased_at);
 CREATE INDEX idx_gift_purchases_status ON gift_purchases(status);
+
+-- Верифицированные отправители
+CREATE INDEX idx_verified_senders_verified_at ON verified_senders(verified_at);
+CREATE INDEX idx_verified_senders_last_message_at ON verified_senders(last_message_at);
+CREATE INDEX idx_verified_senders_username ON verified_senders(username);
 
 -- Запросы на вывод подарков
 CREATE INDEX idx_payment_requests_user_id ON payment_requests(user_id);

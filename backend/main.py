@@ -100,6 +100,9 @@ game_security = None  # Will be initialized later
 async def initialize_system():
     """Initialize all system components."""
     global game_engine, migration_service, monitor, game_security
+
+    # Import auto gift sender
+    from services.auto_gift_sender import auto_gift_sender
     
     try:
         # Initialize secure logging first
@@ -293,7 +296,12 @@ async def initialize_system():
         app.state.migration_service = migration_service
         app.state.monitor = monitor
         app.state.websocket_manager = websocket_manager
-            
+        app.state.auto_gift_sender = auto_gift_sender
+
+        # Start auto gift sender background task
+        asyncio.create_task(auto_gift_sender.start())
+        logger.info("✅ Auto Gift Sender started")
+
     except Exception as e:
         logger.error(f"System initialization failed: {e}")
         raise
@@ -301,11 +309,16 @@ async def initialize_system():
 async def shutdown_system():
     """Shutdown all system components."""
     try:
+        # Stop auto gift sender
+        from services.auto_gift_sender import auto_gift_sender
+        await auto_gift_sender.stop()
+        logger.info("✅ Auto Gift Sender stopped")
+
         if game_engine:
             await game_engine.stop()
-        
+
         await redis_service.disconnect()
-        
+
     except Exception as e:
         logger.error(f"Shutdown error: {e}")
 
@@ -1217,34 +1230,100 @@ async def purchase_gift(request: Request):
                 
                 # Different logic for unique vs regular gifts
                 if gift_dict.get("is_unique", False):
-                    # For unique gifts - create payment request instead of sending immediately
-                    # 🔧 FIX: Use internal database user_id, not Telegram user_id
-                    internal_user_id = purchase_info["user_id"]
-                    # 🎯 NEW: Pass actual price in stars that was deducted from balance
-                    actual_price_stars = Decimal(str(gift_dict['price']))
-                    payment_request = await DatabaseService.create_payment_request(session, internal_user_id, gift_dict['id'], actual_price_stars)
-                    
-                    # Mark regular purchase as completed (balance already deducted)
-                    if "purchase_id" in purchase_info:
-                        await DatabaseService.update_gift_purchase_status(
-                            session, purchase_info["purchase_id"], "completed"
+                    # 🎁 NEW LOGIC: Instant gift sending for verified users via userbot
+                    from models import VerifiedSender
+                    from sqlalchemy import select, and_
+                    from datetime import datetime, timedelta
+                    import httpx
+
+                    # Check if user is verified (wrote to userbot recently)
+                    MESSAGE_VERIFICATION_HOURS = int(os.getenv("MESSAGE_VERIFICATION_HOURS", "48"))
+                    cutoff_time = datetime.utcnow() - timedelta(hours=MESSAGE_VERIFICATION_HOURS)
+
+                    result = await session.execute(
+                        select(VerifiedSender).where(
+                            and_(
+                                VerifiedSender.chat_id == user_id,
+                                VerifiedSender.last_message_at >= cutoff_time,
+                                VerifiedSender.is_blocked == False
+                            )
                         )
-                    
-                    # Send Telegram alert about new pending request
-                    from services.telegram_alerts_service import send_pending_payment_alert
-                    await send_pending_payment_alert(
-                        user_id=user_id,
-                        username=user_data.get('username', ''),
-                        gift_name=gift_dict['name'],
-                        price=Decimal(str(gift_dict['price']))
                     )
-                    
-                    # Notify about manual processing
-                    gift_result = {
-                        "success": True,
-                        "message": "Уникальный подарок добавлен в очередь на обработку. Ожидайте до 24 часов."
-                    }
-                    
+                    verified_sender = result.scalar_one_or_none()
+
+                    if not verified_sender:
+                        # User not verified - refund and return error
+                        logger.warning(f"⚠️ User {user_id} not verified for unique gift purchase")
+
+                        # Refund the balance
+                        await DatabaseService.update_balance(
+                            session, purchase_info["user_id"],
+                            Decimal(str(gift_dict['price'])),
+                            "refund"
+                        )
+
+                        return {
+                            "success": False,
+                            "error": f"Для получения уникального подарка необходимо написать боту @{os.getenv('USERBOT_USERNAME', 'userbot')}. После этого попробуйте снова.",
+                            "verification_required": True
+                        }
+
+                    # User verified - send gift immediately via userbot
+                    logger.info(f"✅ User {user_id} verified, sending unique gift via userbot")
+
+                    try:
+                        # Call userbot-gifter API
+                        USERBOT_GIFTER_URL = os.getenv("USERBOT_GIFTER_URL", "http://userbot-gifter:8000")
+                        gift_name_prefix = gift_dict.get('business_gift_id') or gift_dict['id']
+
+                        async with httpx.AsyncClient(timeout=30.0) as client:
+                            response = await client.post(
+                                f"{USERBOT_GIFTER_URL}/transfer-gift",
+                                json={
+                                    "gift_name_prefix": gift_name_prefix,
+                                    "recipient_id": user_id,
+                                    "star_count": 25
+                                }
+                            )
+                            response.raise_for_status()
+                            userbot_result = response.json()
+
+                        if userbot_result.get("status") == "success":
+                            # Mark purchase as sent
+                            if "purchase_id" in purchase_info:
+                                await DatabaseService.update_gift_purchase_status(
+                                    session, purchase_info["purchase_id"], "sent"
+                                )
+
+                            gift_result = {
+                                "success": True,
+                                "message": f"Уникальный подарок '{gift_dict['name']}' успешно отправлен!"
+                            }
+                            logger.info(f"✅ Unique gift {gift_dict['name']} sent to user {user_id}")
+                        else:
+                            raise Exception(f"Userbot error: {userbot_result.get('message')}")
+
+                    except Exception as send_error:
+                        logger.error(f"❌ Failed to send unique gift via userbot: {send_error}")
+
+                        # Mark as failed
+                        if "purchase_id" in purchase_info:
+                            await DatabaseService.update_gift_purchase_status(
+                                session, purchase_info["purchase_id"], "failed", str(send_error)
+                            )
+
+                        # Refund the balance
+                        await DatabaseService.update_balance(
+                            session, purchase_info["user_id"],
+                            Decimal(str(gift_dict['price'])),
+                            "refund"
+                        )
+
+                        return {
+                            "success": False,
+                            "error": f"Не удалось отправить подарок. Средства возвращены на баланс. Попробуйте позже."
+                        }
+
                 else:
                     # Regular gifts - send immediately
                     from services.telegram_gifts_service import send_telegram_gift_direct
